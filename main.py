@@ -1,7 +1,13 @@
-from PyQt5.QtWidgets import QApplication
-from views.View import View
+import customtkinter as ctk
+from views.MainWindow import MainWindow
+from controllers.MainController import MainController
 
-app = QApplication([])
-w = View()
-w.show()
-app.exec()
+# Configuration globale
+ctk.set_appearance_mode("Dark")
+ctk.set_default_color_theme("blue")
+
+if __name__ == "__main__":
+    app = MainWindow()
+    controller = MainController(app)
+    app.set_controller(controller)
+    app.mainloop()

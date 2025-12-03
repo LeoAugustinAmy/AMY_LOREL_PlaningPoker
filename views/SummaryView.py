@@ -1,0 +1,2 @@
+class SummaryView:
+    pass
