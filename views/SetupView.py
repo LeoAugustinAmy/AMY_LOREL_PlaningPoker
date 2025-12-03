@@ -49,7 +49,7 @@ class SetupView(ctk.CTkFrame):
         self.entry_player.pack(side="left", fill="x", expand=True, padx=(0, 10))
         self.entry_player.bind("<Return>", lambda event: self.add_player())
         
-        self.btn_add_player = ctk.CTkButton(self.frame_add_player, text="+", width=40, height=40, 
+        self.btn_add_player = ctk.CTkButton(self.frame_add_player, text="+", width=40, height=40, font=("Arial", 20, "bold"),
                                             fg_color="#2CC985", hover_color="#229A65",
                                             command=self.add_player)
         self.btn_add_player.pack(side="right")
@@ -65,8 +65,8 @@ class SetupView(ctk.CTkFrame):
         self.entry_feature.pack(side="left", fill="x", expand=True, padx=(0, 10))
         self.entry_feature.bind("<Return>", lambda event: self.add_feature())
         
-        self.btn_add_feature = ctk.CTkButton(self.frame_add_feat, text="+", width=40, height=40, 
-                                             fg_color="#3B8ED0", hover_color="#2C6E9F",
+        self.btn_add_feature = ctk.CTkButton(self.frame_add_feat, text="+", width=40, height=40, font=("Arial", 20, "bold"),
+                                             fg_color="#2CC985", hover_color="#229A65",
                                              command=self.add_feature)
         self.btn_add_feature.pack(side="right")
 

@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from views.CustomPopup import CustomPopup
 
 class HomeView(ctk.CTkFrame):
     """!
@@ -6,11 +7,6 @@ class HomeView(ctk.CTkFrame):
     """
 
     def __init__(self, parent, controller):
-        """!
-        @brief Initialise la HomeView.
-        @param parent Widget parent.
-        @param controller Contrôleur (MainController).
-        """
         super().__init__(parent)
         self.controller = controller
 
@@ -24,7 +20,15 @@ class HomeView(ctk.CTkFrame):
                       command=lambda: self.controller.show_setup()).grid(row=2, column=0, pady=10)
         
         ctk.CTkButton(self, text="Charger une Partie", width=200, height=50,
-                      command=lambda: print("Charger une Partie")).grid(row=3, column=0, pady=10)
+                      command=self._on_load_game).grid(row=3, column=0, pady=10)
 
         ctk.CTkButton(self, text="Quitter", width=200, height=50, fg_color="red", hover_color="darkred",
                       command=lambda: self.controller.quit_app()).grid(row=4, column=0, pady=10)
+
+    def _on_load_game(self):
+        """!
+        @brief Affiche un popup info personnalisé.
+        """
+        CustomPopup("Information", 
+                    "Cette fonctionnalité arrive bientôt !\nPassez par 'Nouvelle Partie' > 'Importer'.", 
+                    type="info")

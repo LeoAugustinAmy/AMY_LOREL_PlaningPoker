@@ -1,5 +1,6 @@
 import json
 from tkinter import filedialog
+from views.CustomPopup import CustomPopup
 
 class SetupController:
     """!
@@ -89,9 +90,10 @@ class SetupController:
             try:
                 with open(filename, 'w', encoding='utf-8') as f:
                     json.dump(data, f, indent=4)
+                CustomPopup("Export Réussi", "La partie a été sauvegardée avec succès !", type="info")
             except Exception as e:
-                print(f"Erreur export: {e}")
-
+                CustomPopup("Erreur d'export", f"Une erreur est survenue :\n{e}", type="error")
+    
     def import_data(self):
         """!
         @brief Importe les données d'une session depuis un fichier JSON.
@@ -115,18 +117,21 @@ class SetupController:
                     rule = data.get("rule")
                     if rule:
                         self.set_rule(rule)
+
+                CustomPopup("Import Réussi", "Données chargées avec succès !", type="info")
                 return True
             except Exception as e:
-                print(f"Erreur import: {e}")
+                CustomPopup("Erreur d'import", f"Le fichier est corrompu :\n{e}", type="error")
                 return False
         return False
 
     def start_game(self):
         """!
-        @brief Valide la configuration et lance la partie.
-        @details Vérifie qu'il y a assez de joueurs et de tâches avant de naviguer vers la vue du jeu.
+        @brief Vérifie les conditions et affiche une alerte CustomPopup si nécessaire.
         """
         if len(self.model.players) >= 2 and self.model.backlog.features:
             self.main_controller.show_game()
         else:
-            print("Erreur: Il faut au moins 2 joueurs et 1 fonctionnalité.")
+            CustomPopup("Impossible de lancer", 
+                        "Pour démarrer, il faut :\n• Au moins 2 Joueurs\n• Au moins 1 Fonctionnalité", 
+                        type="warning")
