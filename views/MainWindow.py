@@ -20,6 +20,7 @@ class MainWindow(ctk.CTk):
         super().__init__()
         self.title("AMY LOREL Planning Poker")
         self.geometry("900x700")
+        self.minsize(800, 600)
         
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
@@ -31,7 +32,7 @@ class MainWindow(ctk.CTk):
         self.header = HeaderView(parent=self, controller=None)
         self.header.grid(row=0, column=0, sticky="ew")
 
-        for F in (HomeView, SetupView):
+        for F in (HomeView, SetupView, GameView):
             page_name = F.__name__
             frame = F(parent=self, controller=None)
             self.frames[page_name] = frame
@@ -52,6 +53,9 @@ class MainWindow(ctk.CTk):
             
         if "SetupView" in self.frames:
             self.frames["SetupView"].controller = main_controller.setup_controller
+
+        if "GameView" in self.frames:
+            self.frames["GameView"].controller = main_controller.game_controller
 
     def show_frame(self, page_name):
         """!
