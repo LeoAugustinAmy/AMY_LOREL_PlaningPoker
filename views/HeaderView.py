@@ -1,11 +1,19 @@
 import customtkinter as ctk
 
 class HeaderView(ctk.CTkFrame):
+    """!
+    @brief Barre de navigation supérieure commune à l'application.
+    """
+
     def __init__(self, parent, controller):
+        """!
+        @brief Initialise le Header.
+        @param parent Widget parent.
+        @param controller Contrôleur (MainController).
+        """
         super().__init__(parent)
         self.controller = controller
 
-        # Layout : label à gauche, boutons à droite
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=0)
@@ -19,6 +27,9 @@ class HeaderView(ctk.CTkFrame):
         self.quit_btn.grid(row=0, column=2, padx=12, pady=6)
 
     def _on_home(self):
+        """!
+        @brief Gestionnaire d'événement pour le bouton Accueil.
+        """
         if self.controller:
             try:
                 self.controller.show_home()
@@ -26,13 +37,15 @@ class HeaderView(ctk.CTkFrame):
                 pass
 
     def _on_quit(self):
+        """!
+        @brief Gestionnaire d'événement pour le bouton Quitter.
+        """
         if self.controller:
             try:
                 self.controller.quit_app()
             except Exception:
                 pass
         else:
-            # fallback si pas de controller
             try:
                 self.master.destroy()
             except Exception:

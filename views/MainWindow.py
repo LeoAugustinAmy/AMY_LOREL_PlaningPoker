@@ -7,12 +7,20 @@ from views.ResultView import ResultView
 from views.SummaryView import SummaryView
 
 class MainWindow(ctk.CTk):
+    """!
+    @brief Fenêtre principale de l'application.
+    @details Hérite de CTk. Gère le conteneur principal et la navigation entre les différentes frames.
+    """
+
     def __init__(self):
+        """!
+        @brief Constructeur de la fenêtre principale.
+        @details Configure la géométrie, le titre, le header commun et instancie toutes les vues.
+        """
         super().__init__()
         self.title("AMY LOREL Planning Poker")
         self.geometry("900x700")
         
-        # header (row 0) fixe, contenu (row 1) extensible
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -20,11 +28,9 @@ class MainWindow(ctk.CTk):
         self.controller = None
         self.frames = {}
 
-        # Header commun
         self.header = HeaderView(parent=self, controller=None)
         self.header.grid(row=0, column=0, sticky="ew")
 
-        # Pages placées sous le header
         for F in (HomeView, SetupView):
             page_name = F.__name__
             frame = F(parent=self, controller=None)
@@ -33,16 +39,30 @@ class MainWindow(ctk.CTk):
 
         self.show_frame("HomeView")
 
-    def set_controller(self, controller):
-        self.controller = controller
-        # transmettre le controller au header et aux pages
-        self.header.controller = controller
-        for frame in self.frames.values():
-            frame.controller = controller
+    def set_controller(self, main_controller):
+        """!
+        @brief Injecte les dépendances de contrôleurs dans les vues.
+        @param main_controller L'instance du MainController.
+        """
+        self.controller = main_controller
+        self.header.controller = main_controller
+
+        if "HomeView" in self.frames:
+            self.frames["HomeView"].controller = main_controller
+            
+        if "SetupView" in self.frames:
+            self.frames["SetupView"].controller = main_controller.setup_controller
 
     def show_frame(self, page_name):
+        """!
+        @brief Affiche une vue spécifique en la montant au premier plan.
+        @param page_name Le nom de la classe de la vue à afficher.
+        """
         frame = self.frames[page_name]
         frame.tkraise()
 
     def quit_app(self):
+        """!
+        @brief Détruit la fenêtre et quitte l'application.
+        """
         self.destroy()
