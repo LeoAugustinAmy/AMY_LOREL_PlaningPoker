@@ -4,7 +4,6 @@ from views.HomeView import HomeView
 from views.SetupView import SetupView
 from views.GameView import GameView
 from views.ResultView import ResultView
-from views.SummaryView import SummaryView
 
 class MainWindow(ctk.CTk):
     """!
@@ -32,6 +31,7 @@ class MainWindow(ctk.CTk):
         self.header = HeaderView(parent=self, controller=None)
         self.header.grid(row=0, column=0, sticky="ew")
 
+        # Instanciation de toutes les vues
         for F in (HomeView, SetupView, GameView, ResultView):
             page_name = F.__name__
             frame = F(parent=self, controller=None)
@@ -43,33 +43,22 @@ class MainWindow(ctk.CTk):
     def set_controller(self, main_controller):
         """!
         @brief Injecte les dépendances de contrôleurs dans les vues.
-        @param main_controller L'instance du MainController.
         """
         self.controller = main_controller
         self.header.controller = main_controller
 
         if "HomeView" in self.frames:
             self.frames["HomeView"].controller = main_controller
-            
         if "SetupView" in self.frames:
             self.frames["SetupView"].controller = main_controller.setup_controller
-
         if "GameView" in self.frames:
             self.frames["GameView"].controller = main_controller.game_controller
-
         if "ResultView" in self.frames:
             self.frames["ResultView"].controller = main_controller.result_controller
 
     def show_frame(self, page_name):
-        """!
-        @brief Affiche une vue spécifique en la montant au premier plan.
-        @param page_name Le nom de la classe de la vue à afficher.
-        """
         frame = self.frames[page_name]
         frame.tkraise()
 
     def quit_app(self):
-        """!
-        @brief Détruit la fenêtre et quitte l'application.
-        """
         self.destroy()

@@ -39,9 +39,6 @@ class GameView(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        # ============================================================
-        # 1. HEADER : Informations sur la Feature et le Tour
-        # ============================================================
         self.header_frame = ctk.CTkFrame(self, fg_color=THEME_HEADER_BG, corner_radius=0)
         self.header_frame.grid(row=0, column=0, sticky="ew", ipady=10)
         self.header_frame.grid_columnconfigure(1, weight=1)
@@ -69,10 +66,7 @@ class GameView(ctk.CTkFrame):
                                                 height=30, fg_color=("gray80", "gray20"))
         self.lbl_instruction_bar.grid(row=1, column=0, sticky="new")
 
-
-        # ============================================================
-        # 2. TABLE CENTRALE : Zone des joueurs et résultats
-        # ============================================================
+        # Table de jeu centrale
         self.table_area = ctk.CTkFrame(self, fg_color="transparent")
         self.table_area.grid(row=1, column=0, sticky="nsew", padx=20, pady=(40, 10))
         
@@ -88,9 +82,7 @@ class GameView(ctk.CTkFrame):
         self.center_result_container.grid(row=1, column=0, sticky="n", pady=(20, 0))
 
 
-        # ============================================================
-        # 3. DECK : Main du joueur (Bas)
-        # ============================================================
+        # Deck de cartes
         self.deck_container = ctk.CTkFrame(self, height=180, fg_color=("gray85", "gray15"), corner_radius=15)
         self.deck_container.grid(row=2, column=0, sticky="ew", padx=20, pady=20)
         self.deck_container.grid_propagate(False)
@@ -100,9 +92,6 @@ class GameView(ctk.CTkFrame):
         self.scroll_deck = ctk.CTkScrollableFrame(self.deck_container, orientation="horizontal", fg_color="transparent", height=130)
         self.scroll_deck.pack(fill="both", expand=True, padx=10, pady=5)
 
-    # ============================================================
-    # MÉTHODES DE MISE À JOUR UI
-    # ============================================================
 
     def refresh_ui(self):
         """!
@@ -154,9 +143,8 @@ class GameView(ctk.CTkFrame):
             ctk.CTkLabel(slot, text=name, font=("Arial", 14, "bold"), text_color=name_color).pack(pady=(0, 10))
 
             # Zone de statut (Taille carte fixe)
-            # CORRECTION : On gère la bordure via border_width=0 au lieu de border_color="transparent"
             border_width = 2 if is_active else 0
-            border_color = THEME_COLOR_ACCENT if is_active else None # None ou une couleur valide, ignoré si width=0
+            border_color = THEME_COLOR_ACCENT if is_active else None
 
             status_box = ctk.CTkFrame(slot, width=CARD_SIZE_TABLE[0], height=CARD_SIZE_TABLE[1], 
                                       fg_color=("gray90", "gray25"), corner_radius=8, 
@@ -236,9 +224,6 @@ class GameView(ctk.CTkFrame):
 
         self._build_deck(enabled=False)
 
-    # ============================================================
-    # GESTION DES CARTES (Deck et Création)
-    # ============================================================
 
     def _build_deck(self, enabled):
         """!
@@ -283,7 +268,6 @@ class GameView(ctk.CTkFrame):
         
         ctk_image = None
         
-        # --- TENTATIVE CHARGEMENT SVG ---
         if CAIROSVG_AVAILABLE and os.path.exists(image_path):
             try:
                 with open(image_path, 'rb') as f: svg_data = f.read()
@@ -293,9 +277,7 @@ class GameView(ctk.CTkFrame):
             except Exception as e:
                 print(f"Erreur chargement image {filename}: {e}")
 
-        # --- CRÉATION DU WIDGET ---
         if ctk_image:
-            # CORRECTION : border_width=0 pour éviter les problèmes de transparence
             return ctk.CTkButton(parent, text="", image=ctk_image, command=command, 
                                  width=size[0], height=size[1], 
                                  fg_color="transparent", border_width=0,

@@ -19,20 +19,16 @@ class ResultController:
 
     def get_results(self):
         """!
-        @brief Récupère la liste des fonctionnalités validées et leurs scores.
-        @return Dictionnaire {feature_name: score}.
+        @brief Récupère le dictionnaire des résultats validés.
+        @return Dictionnaire {feature: score}.
         """
         return self.model.validated_features
 
     def save_results(self):
         """!
-        @brief Exporte les résultats finaux en JSON.
+        @brief Exporte les résultats finaux en JSON avec le statut FINISHED.
         """
-        data = {
-            "status": "FINISHED",
-            "results": {str(k): v for k, v in self.model.validated_features.items()},
-            "players": self.model.get_player_names()
-        }
+        data = self.model.to_dict(status="FINISHED")
         
         filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
         if filename:

@@ -12,6 +12,9 @@ class ResultView(ctk.CTkFrame):
     """
 
     def __init__(self, parent, controller):
+        """!
+        @brief Constructeur de la ResultView.
+        """
         super().__init__(parent)
         self.controller = controller
 
@@ -53,7 +56,6 @@ class ResultView(ctk.CTkFrame):
         """!
         @brief Charge et affiche les résultats depuis le contrôleur.
         """
-        # Nettoyage de la liste
         for widget in self.results_frame.winfo_children():
             widget.destroy()
 
@@ -66,7 +68,6 @@ class ResultView(ctk.CTkFrame):
             ctk.CTkLabel(self.results_frame, text="Aucun résultat disponible.", font=("Arial", 16)).pack(pady=20)
             return
 
-        # Affichage des lignes
         for feature, score in results.items():
             self._create_result_row(feature, score)
 
@@ -77,11 +78,9 @@ class ResultView(ctk.CTkFrame):
         row = ctk.CTkFrame(self.results_frame, fg_color=("gray90", "gray20"), corner_radius=10)
         row.pack(fill="x", pady=5, ipadx=10, ipady=10)
 
-        # Nom de la feature (gauche)
         ctk.CTkLabel(row, text=str(feature_name), font=("Arial", 16), 
                      wraplength=500, justify="left").pack(side="left", padx=10)
 
-        # Badge de score (droite)
         display_score = str(score)
         if score == "cafe": display_score = "☕"
         elif score == "interro": display_score = "?"
@@ -93,9 +92,7 @@ class ResultView(ctk.CTkFrame):
         ctk.CTkLabel(badge, text=display_score, font=("Arial", 18, "bold"), text_color="white").pack(expand=True)
 
     def _on_save(self):
-        if self.controller:
-            self.controller.save_results()
+        if self.controller: self.controller.save_results()
 
     def _on_home(self):
-        if self.controller:
-            self.controller.go_home()
+        if self.controller: self.controller.go_home()
