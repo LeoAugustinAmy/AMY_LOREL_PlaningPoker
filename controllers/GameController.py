@@ -191,14 +191,11 @@ class GameController:
 
     def finish_game(self):
         """!
-        @brief Fin de partie : Export du résultat final.
+        @brief Fin de partie : Redirige vers la page de résultats.
         """
-        data = {
-            "status": "FINISHED",
-            "results": {str(k): v for k, v in self.model.validated_features.items()}
-        }
-        self._export_json(data, "Partie terminée ! Résultats sauvegardés.")
-        self.main_controller.show_home()
+        # Ancienne version : Export direct et retour Home
+        # Nouvelle version : Navigation vers ResultView
+        self.main_controller.show_result()
 
     def _export_json(self, data, success_msg):
         """!

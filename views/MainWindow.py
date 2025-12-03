@@ -32,7 +32,7 @@ class MainWindow(ctk.CTk):
         self.header = HeaderView(parent=self, controller=None)
         self.header.grid(row=0, column=0, sticky="ew")
 
-        for F in (HomeView, SetupView, GameView):
+        for F in (HomeView, SetupView, GameView, ResultView):
             page_name = F.__name__
             frame = F(parent=self, controller=None)
             self.frames[page_name] = frame
@@ -56,6 +56,9 @@ class MainWindow(ctk.CTk):
 
         if "GameView" in self.frames:
             self.frames["GameView"].controller = main_controller.game_controller
+
+        if "ResultView" in self.frames:
+            self.frames["ResultView"].controller = main_controller.result_controller
 
     def show_frame(self, page_name):
         """!
