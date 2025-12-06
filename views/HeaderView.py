@@ -3,6 +3,8 @@ import customtkinter as ctk
 class HeaderView(ctk.CTkFrame):
     """!
     @brief Barre de navigation supérieure commune à l'application.
+    @attributes
+        controller Contrôleur principal permettant la navigation/fermeture.
     """
 
     def __init__(self, parent, controller):
@@ -10,6 +12,7 @@ class HeaderView(ctk.CTkFrame):
         @brief Initialise le Header.
         @param parent Widget parent.
         @param controller Contrôleur (MainController).
+        @note Affiche un titre et deux actions (Accueil / Quitter).
         """
         super().__init__(parent)
         self.controller = controller
@@ -29,6 +32,7 @@ class HeaderView(ctk.CTkFrame):
     def _on_home(self):
         """!
         @brief Gestionnaire d'événement pour le bouton Accueil.
+        @note Ignorer les erreurs de navigation pour éviter de bloquer l'UI.
         """
         if self.controller:
             try:
@@ -39,6 +43,7 @@ class HeaderView(ctk.CTkFrame):
     def _on_quit(self):
         """!
         @brief Gestionnaire d'événement pour le bouton Quitter.
+        @note Ferme soit via MainController, soit directement la fenêtre.
         """
         if self.controller:
             try:

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['next_5ffeature_0',['next_feature',['../class_game_session_1_1_game_session.html#a07f6bce5470a1deb79fffb47e9fad29f',1,'GameSession::GameSession']]],
-  ['next_5fround_1',['next_round',['../class_game_session_1_1_game_session.html#a6541b68679ec476c1875c3109b673926',1,'GameSession::GameSession']]]
+  ['quit_5fapp_0',['quit_app',['../class_main_controller_1_1_main_controller.html#a41a06fe6bc6a4f39c82a102bd66ac6f7',1,'MainController.MainController.quit_app()'],['../class_main_window_1_1_main_window.html#a57b0b3718a02a9e76ecf10b9e901c07f',1,'MainWindow.MainWindow.quit_app()']]]
 ];

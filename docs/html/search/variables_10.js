@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['selected_5fmode_0',['selected_mode',['../class_game_rules_1_1_game_rules.html#af07a984229ef1c93bc816994c812939a',1,'GameRules::GameRules']]],
-  ['session_1',['session',['../classtests_1_1_test_models.html#aa5ed69dc4020548b612a269524588792',1,'tests.TestModels.session'],['../classtests_1_1_test_game_logic.html#a36eadb7ce5a959d2437ab346827811e4',1,'tests.TestGameLogic.session']]],
-  ['setup_5fcontroller_2',['setup_controller',['../class_main_controller_1_1_main_controller.html#aca734a8cb8d9ad53f1e515c3f99fb3cc',1,'MainController::MainController']]]
+  ['table_5farea_0',['table_area',['../class_game_view_1_1_game_view.html#a0de03acc809c94f71bb27cbc3200f2a9',1,'GameView::GameView']]],
+  ['theme_5fcolor_5faccent_1',['THEME_COLOR_ACCENT',['../namespace_game_view.html#a19b00304ccdaa0934c51a037b19677d3',1,'GameView.THEME_COLOR_ACCENT'],['../namespace_result_view.html#a0c92d277b005f3f674a09cf63dc12422',1,'ResultView.THEME_COLOR_ACCENT']]],
+  ['theme_5fcolor_5fsuccess_2',['THEME_COLOR_SUCCESS',['../namespace_game_view.html#a576be781f9747bfb86037f54c3b9ecc4',1,'GameView.THEME_COLOR_SUCCESS'],['../namespace_result_view.html#a58264f0800e4caf3a0a17ae1574e03c9',1,'ResultView.THEME_COLOR_SUCCESS']]],
+  ['theme_5fcolor_5fwarning_3',['THEME_COLOR_WARNING',['../namespace_game_view.html#a891d7c69a83fad3573025cdd40fea7b9',1,'GameView']]],
+  ['theme_5fheader_5fbg_4',['THEME_HEADER_BG',['../namespace_game_view.html#a589d2485552b114823773db5eacdc6f9',1,'GameView.THEME_HEADER_BG'],['../namespace_result_view.html#a86eee714c679c141238ae7dc3889927e',1,'ResultView.THEME_HEADER_BG']]],
+  ['theme_5ftable_5fbg_5',['THEME_TABLE_BG',['../namespace_game_view.html#a8c4c1b59057d94441071132d5174e7c4',1,'GameView']]]
 ];

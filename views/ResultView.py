@@ -9,11 +9,17 @@ class ResultView(ctk.CTkFrame):
     """!
     @brief Vue affichant le bilan de la partie.
     @details Liste les User Stories estimées et permet de sauvegarder ou quitter.
+    @attributes
+        controller Contrôleur des résultats associé.
     """
 
     def __init__(self, parent, controller):
         """!
         @brief Constructeur de la ResultView.
+        @param parent Conteneur parent (MainWindow).
+        @param controller Contrôleur associé (ResultController).
+        @return None
+        @note Prépare la zone scrollable des résultats et le footer d'actions.
         """
         super().__init__(parent)
         self.controller = controller
@@ -51,6 +57,9 @@ class ResultView(ctk.CTkFrame):
     def refresh_ui(self):
         """!
         @brief Charge et affiche les résultats depuis le contrôleur.
+        @return None
+        @example
+            result_view.refresh_ui()
         """
         for widget in self.results_frame.winfo_children():
             widget.destroy()
@@ -70,6 +79,10 @@ class ResultView(ctk.CTkFrame):
     def _create_result_row(self, feature_name, score):
         """!
         @brief Crée une ligne visuelle pour un résultat.
+        @param feature_name Nom de la fonctionnalité.
+        @param score Score validé.
+        @return None
+        @note Convertit les cartes spéciales "cafe" et "interro" en symboles.
         """
         row = ctk.CTkFrame(self.results_frame, fg_color=("gray90", "gray20"), corner_radius=10)
         row.pack(fill="x", pady=5, ipadx=10, ipady=10)
@@ -88,7 +101,17 @@ class ResultView(ctk.CTkFrame):
         ctk.CTkLabel(badge, text=display_score, font=("Arial", 18, "bold"), text_color="white").pack(expand=True)
 
     def _on_save(self):
+        """!
+        @brief Déclenche la sauvegarde des résultats.
+        @return None
+        @note Délègue au contrôleur la création du fichier.
+        """
         if self.controller: self.controller.save_results()
 
     def _on_home(self):
+        """!
+        @brief Retourne à l'accueil via le contrôleur.
+        @return None
+        @note N'effectue aucune action si aucun contrôleur n'est attaché.
+        """
         if self.controller: self.controller.go_home()

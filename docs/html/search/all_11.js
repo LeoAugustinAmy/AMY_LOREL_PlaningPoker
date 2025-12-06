@@ -18,6 +18,5 @@ var searchData=
   ['theme_5fcolor_5fsuccess_15',['THEME_COLOR_SUCCESS',['../namespace_game_view.html#a576be781f9747bfb86037f54c3b9ecc4',1,'GameView.THEME_COLOR_SUCCESS'],['../namespace_result_view.html#a58264f0800e4caf3a0a17ae1574e03c9',1,'ResultView.THEME_COLOR_SUCCESS']]],
   ['theme_5fcolor_5fwarning_16',['THEME_COLOR_WARNING',['../namespace_game_view.html#a891d7c69a83fad3573025cdd40fea7b9',1,'GameView']]],
   ['theme_5fheader_5fbg_17',['THEME_HEADER_BG',['../namespace_game_view.html#a589d2485552b114823773db5eacdc6f9',1,'GameView.THEME_HEADER_BG'],['../namespace_result_view.html#a86eee714c679c141238ae7dc3889927e',1,'ResultView.THEME_HEADER_BG']]],
-  ['theme_5ftable_5fbg_18',['THEME_TABLE_BG',['../namespace_game_view.html#a8c4c1b59057d94441071132d5174e7c4',1,'GameView']]],
-  ['to_5fdict_19',['to_dict',['../class_game_session_1_1_game_session.html#a2f81ba4523926124e357af06076aa583',1,'GameSession::GameSession']]]
+  ['theme_5ftable_5fbg_18',['THEME_TABLE_BG',['../namespace_game_view.html#a8c4c1b59057d94441071132d5174e7c4',1,'GameView']]]
 ];

@@ -9,12 +9,17 @@ class MainWindow(ctk.CTk):
     """!
     @brief Fenêtre principale de l'application.
     @details Hérite de CTk. Gère le conteneur principal et la navigation entre les différentes frames.
+    @attributes
+        controller Instance principale pour relayer les actions.
+        frames Dictionnaire des vues instanciées.
+        header Barre d'en-tête commune.
     """
 
     def __init__(self):
         """!
         @brief Constructeur de la fenêtre principale.
         @details Configure la géométrie, le titre, le header commun et instancie toutes les vues.
+        @note Instancie les vues sans contrôleur ; set_controller injecte ensuite les dépendances.
         """
         super().__init__()
         self.title("AMY LOREL Planning Poker")
@@ -45,6 +50,8 @@ class MainWindow(ctk.CTk):
     def set_controller(self, main_controller):
         """!
         @brief Injecte les dépendances de contrôleurs dans les vues.
+        @param main_controller Instance de MainController.
+        @note Partage la même instance de contrôleur principal et met à jour le header.
         """
         self.controller = main_controller
         self.header.controller = main_controller
@@ -59,8 +66,18 @@ class MainWindow(ctk.CTk):
             self.frames["ResultView"].controller = main_controller.result_controller
 
     def show_frame(self, page_name):
+        """!
+        @brief Affiche la frame demandée.
+        @param page_name Nom de la frame cible.
+        @example
+            window.show_frame("GameView")
+        """
         frame = self.frames[page_name]
         frame.tkraise()
 
     def quit_app(self):
+        """!
+        @brief Ferme proprement l'application.
+        @note Equivalent à destroy() de la fenêtre principale.
+        """
         self.destroy()

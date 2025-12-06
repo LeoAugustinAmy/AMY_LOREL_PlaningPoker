@@ -4,6 +4,9 @@ class SetupView(ctk.CTkFrame):
     """!
     @brief Vue de configuration de la partie.
     @details Permet d'ajouter des joueurs, des tâches, de choisir les règles et d'importer/exporter en JSON.
+    @attributes
+        controller Contrôleur de configuration.
+        rules_var Variable Tk liée au menu des règles.
     """
 
     def __init__(self, parent, controller):
@@ -11,6 +14,7 @@ class SetupView(ctk.CTkFrame):
         @brief Constructeur de SetupView.
         @param parent Le widget parent (MainWindow).
         @param controller Le contrôleur associé (SetupController).
+        @note Prépare les cartes gauche/droite et les boutons d'import/export.
         """
         super().__init__(parent)
         self.controller = controller
@@ -108,6 +112,7 @@ class SetupView(ctk.CTkFrame):
     def add_player(self):
         """!
         @brief Action d'ajout d'un joueur déclenchée par l'interface.
+        @note Ignore si l'ajout échoue.
         """
         if self.controller.add_player(self.entry_player.get().strip()):
             self.entry_player.delete(0, "end")
@@ -116,6 +121,7 @@ class SetupView(ctk.CTkFrame):
     def add_feature(self):
         """!
         @brief Action d'ajout d'une fonctionnalité déclenchée par l'interface.
+        @note Ignoré si le backlog refuse la valeur (vide ou doublon).
         """
         if self.controller.add_feature(self.entry_feature.get().strip()):
             self.entry_feature.delete(0, "end")
@@ -124,6 +130,7 @@ class SetupView(ctk.CTkFrame):
     def import_json(self):
         """!
         @brief Déclenche l'importation de données JSON via le contrôleur.
+        @note Rafraîchit les listes seulement en cas de succès.
         """
         if self.controller.import_data():
             self.refresh_lists()
@@ -131,12 +138,14 @@ class SetupView(ctk.CTkFrame):
     def export_json(self):
         """!
         @brief Déclenche l'exportation des données en JSON via le contrôleur.
+        @note Utilise les données courantes (joueurs, backlog, règle).
         """
         self.controller.export_data()
 
     def start_game(self):
         """!
         @brief Valide la règle sélectionnée et demande au contrôleur de lancer le jeu.
+        @note Définit la règle via set_rule avant l'appel start_game.
         """
         self.controller.set_rule(self.rules_var.get())
         self.controller.start_game()
@@ -145,6 +154,8 @@ class SetupView(ctk.CTkFrame):
         """!
         @brief Met à jour l'ensemble de l'interface (règles et listes).
         @details Méthode appelée par le MainController lors de l'affichage de la vue.
+        @example
+            setup_view.refresh_ui()
         """
         rules = self.controller.get_available_rules()
         self.rules_menu.configure(values=rules)

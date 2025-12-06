@@ -1,16 +1,12 @@
 var searchData=
 [
-  ['save_5ffeature_5fscore_0',['save_feature_score',['../class_game_session_1_1_game_session.html#ac70cb7710d1f54c5f6ba7ccbfcb92cae',1,'GameSession::GameSession']]],
-  ['save_5fgame_5fstate_5fand_5fquit_1',['save_game_state_and_quit',['../class_game_controller_1_1_game_controller.html#a4e5c179c436835533d918e8d0e9c9ad4',1,'GameController::GameController']]],
-  ['save_5fresults_2',['save_results',['../class_result_controller_1_1_result_controller.html#a77084cf7fa389c2bd6668c1d31b8e01d',1,'ResultController::ResultController']]],
-  ['set_5fcontroller_3',['set_controller',['../class_main_window_1_1_main_window.html#ab9bbd7c4c7096837a3f0118e0c8f3a10',1,'MainWindow::MainWindow']]],
-  ['set_5fmode_4',['set_mode',['../class_game_rules_1_1_game_rules.html#afbe1fc05521e5a4d5ad780a0c6e30bda',1,'GameRules::GameRules']]],
-  ['set_5frule_5',['set_rule',['../class_setup_controller_1_1_setup_controller.html#a078adf738548c9b65ac79ee070a02c39',1,'SetupController::SetupController']]],
-  ['setup_6',['setUp',['../classtests_1_1_test_models.html#aed88826308bbf8634f63b685f8a752bc',1,'tests.TestModels.setUp()'],['../classtests_1_1_test_game_logic.html#a12f6b130e15a900904d2daac1f800a12',1,'tests.TestGameLogic.setUp()']]],
-  ['show_5fframe_7',['show_frame',['../class_main_window_1_1_main_window.html#aa873b665a9a87648a720eeba83cf7763',1,'MainWindow::MainWindow']]],
-  ['show_5fgame_8',['show_game',['../class_main_controller_1_1_main_controller.html#ada351f059b287ea2f8d51c87b9c25ce4',1,'MainController::MainController']]],
-  ['show_5fhome_9',['show_home',['../class_main_controller_1_1_main_controller.html#ac0d2f756505c7406a5391e228a9676d2',1,'MainController::MainController']]],
-  ['show_5fresult_10',['show_result',['../class_main_controller_1_1_main_controller.html#a1cb5f03ce2b7aca665a700c4f1a14639',1,'MainController::MainController']]],
-  ['show_5fsetup_11',['show_setup',['../class_main_controller_1_1_main_controller.html#a7648db37406d36a96b8cc842113fb4c6',1,'MainController::MainController']]],
-  ['start_5fgame_12',['start_game',['../class_setup_controller_1_1_setup_controller.html#a84dfa08519e2dec978c8dab31627d513',1,'SetupController.SetupController.start_game()'],['../class_setup_view_1_1_setup_view.html#a2da43a816f1197108f10a1df24e37c9d',1,'SetupView.SetupView.start_game()']]]
+  ['test_5fbacklog_5fmanagement_0',['test_backlog_management',['../classtests_1_1_test_models.html#af14200a067680e72c16273d5852079d3',1,'tests::TestModels']]],
+  ['test_5fcoffee_5fbreak_5frule_1',['test_coffee_break_rule',['../classtests_1_1_test_game_logic.html#a940e72836792c37053ef5e4f6608e9a0',1,'tests::TestGameLogic']]],
+  ['test_5fignore_5fspecial_5fcards_5fin_5fcalc_2',['test_ignore_special_cards_in_calc',['../classtests_1_1_test_game_logic.html#a09ea3a33dcbe2388653f6e260be3c36c',1,'tests::TestGameLogic']]],
+  ['test_5fplayer_5fmanagement_3',['test_player_management',['../classtests_1_1_test_models.html#a0266a22773570be896c740271d6afc59',1,'tests::TestModels']]],
+  ['test_5frule_5fabsolute_5fmajority_4',['test_rule_absolute_majority',['../classtests_1_1_test_game_logic.html#ab91f6bc37e8f05edc1160aca471489a8',1,'tests::TestGameLogic']]],
+  ['test_5frule_5faverage_5fround_5ftwo_5',['test_rule_average_round_two',['../classtests_1_1_test_game_logic.html#aafce400dddc7c9e85bc1a7701980541b',1,'tests::TestGameLogic']]],
+  ['test_5frule_5funanimous_5fround_5fone_6',['test_rule_unanimous_round_one',['../classtests_1_1_test_game_logic.html#a48817b842b2b1593685d31d286b1e398',1,'tests::TestGameLogic']]],
+  ['test_5fsave_5fload_5fserialization_7',['test_save_load_serialization',['../classtests_1_1_test_models.html#a9c742b2e7339c09cf822e9474b1dc14f',1,'tests::TestModels']]],
+  ['test_5fvoting_5fprocess_8',['test_voting_process',['../classtests_1_1_test_game_logic.html#a78cdd4df09f9d311cc825f6b513d01bd',1,'tests::TestGameLogic']]]
 ];

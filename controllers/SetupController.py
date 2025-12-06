@@ -6,6 +6,9 @@ class SetupController:
     """!
     @brief Contrôleur dédié à la vue de configuration (SetupView).
     @details Gère les interactions utilisateur liées à l'ajout de joueurs, de tâches, et l'import/export.
+    @attributes
+        model Le modèle de session en cours.
+        main_controller Contrôleur principal pour la navigation.
     """
 
     def __init__(self, game_session, main_controller):
@@ -13,6 +16,7 @@ class SetupController:
         @brief Initialise le SetupController.
         @param game_session Instance du modèle GameSession.
         @param main_controller Instance du contrôleur principal pour la navigation.
+        @note Ne réinitialise pas le modèle ; utile pour un chargement de partie.
         """
         self.model = game_session
         self.main_controller = main_controller
@@ -22,6 +26,7 @@ class SetupController:
         @brief Demande au modèle d'ajouter un joueur.
         @param name Nom du joueur.
         @return True si succès, False sinon.
+        @raises ValueError Si le nom est vide ou déjà utilisé.
         """
         return self.model.add_player(name)
 
@@ -29,6 +34,7 @@ class SetupController:
         """!
         @brief Demande au modèle de supprimer un joueur.
         @param name Nom du joueur.
+        @note Ne lève pas d'exception si le joueur n'existe pas.
         """
         self.model.remove_player(name)
         
@@ -36,6 +42,8 @@ class SetupController:
         """!
         @brief Récupère la liste des joueurs actuels.
         @return Liste des noms des joueurs.
+        @example
+            players = controller.get_players()
         """
         return self.model.get_player_names()
 
@@ -44,6 +52,7 @@ class SetupController:
         @brief Demande au modèle d'ajouter une fonctionnalité au backlog.
         @param name Description de la fonctionnalité.
         @return True si succès, False sinon.
+        @raises ValueError Si la fonctionnalité est vide ou dupliquée.
         """
         return self.model.backlog.add_feature(name)
 
@@ -51,6 +60,7 @@ class SetupController:
         """!
         @brief Demande au modèle de supprimer une fonctionnalité.
         @param name Description de la fonctionnalité.
+        @note Ignore silencieusement les noms inexistants.
         """
         self.model.backlog.remove_feature(name)
 
@@ -58,6 +68,8 @@ class SetupController:
         """!
         @brief Récupère la liste des fonctionnalités du backlog.
         @return Liste des chaînes de caractères.
+        @example
+            features = controller.get_features()
         """
         return self.model.backlog.features
 
@@ -65,6 +77,7 @@ class SetupController:
         """!
         @brief Récupère les modes de jeu disponibles.
         @return Liste des modes de validation.
+        @see GameRules.available_modes
         """
         return self.model.rules.available_modes
 
@@ -72,6 +85,7 @@ class SetupController:
         """!
         @brief Définit la règle du jeu choisie.
         @param rule_name Nom de la règle.
+        @raises ValueError Si la règle est inconnue.
         """
         self.model.rules.set_mode(rule_name)
 
@@ -79,6 +93,7 @@ class SetupController:
         """!
         @brief Exporte les données de la session (joueurs, backlog, règle) dans un fichier JSON.
         @details Ouvre une boîte de dialogue pour choisir l'emplacement de sauvegarde.
+        @raises OSError Si l'écriture du fichier échoue.
         """
         data = {
             "players": self.get_players(),
@@ -99,6 +114,7 @@ class SetupController:
         @brief Importe les données d'une session depuis un fichier JSON.
         @details Ouvre une boîte de dialogue pour choisir le fichier et met à jour le modèle.
         @return True si l'import a réussi, False sinon.
+        @raises ValueError Si le fichier ne contient pas les clés attendues.
         """
         filename = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
         if filename:

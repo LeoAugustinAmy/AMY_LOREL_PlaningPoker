@@ -4,6 +4,9 @@ class CustomPopup(ctk.CTkToplevel):
     """!
     @brief Fenêtre contextuelle personnalisée (Popup) respectant le thème de l'application.
     @details Remplace les messagebox natifs de tkinter pour afficher des erreurs, avertissements ou succès.
+    @attributes
+        label Label principal affichant l'icône et le message.
+        btn_ok Bouton de validation/fermeture.
     """
 
     def __init__(self, title, message, type="info", width=400, height=200):
@@ -14,6 +17,9 @@ class CustomPopup(ctk.CTkToplevel):
         @param type Type de message ("info", "error", "warning") influençant la couleur du bouton.
         @param width Largeur de la fenêtre (défaut 400).
         @param height Hauteur de la fenêtre (défaut 200).
+        @note La fenêtre est modale (grab_set) et forcée au premier plan.
+        @example
+            CustomPopup("Succès", "Données sauvegardées", type="info")
         """
         super().__init__()
 
@@ -51,6 +57,9 @@ class CustomPopup(ctk.CTkToplevel):
     def _center_window(self, width, height):
         """!
         @brief Calcule la position pour centrer la fenêtre sur l'écran.
+        @param width Largeur de la fenêtre.
+        @param height Hauteur de la fenêtre.
+        @note Met à jour la géométrie directement.
         """
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
@@ -61,6 +70,9 @@ class CustomPopup(ctk.CTkToplevel):
     def _darken_color(self, hex_color, factor=0.8):
         """!
         @brief Assombrit une couleur hexadécimale pour l'effet de survol (hover).
+        @param hex_color Couleur de base en hex.
+        @param factor Facteur multiplicatif (0-1) pour assombrir.
         @return La couleur assombrie en hex.
+        @note Utilise un fallback simple si la chaîne ne correspond pas au format attendu.
         """
         return hex_color

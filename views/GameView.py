@@ -17,6 +17,9 @@ class GameView(ctk.CTkFrame):
     """!
     @brief Vue principale du jeu en cours.
     @details Affiche la table de jeu, les slots des joueurs, et la main (deck).
+    @attributes
+        controller Contrôleur de jeu associé.
+        _card_image_cache Cache des images de cartes CTkImage.
     """
 
     def __init__(self, parent, controller):
@@ -24,6 +27,7 @@ class GameView(ctk.CTkFrame):
         @brief Constructeur de la GameView.
         @param parent Widget parent.
         @param controller Contrôleur associé (GameController).
+        @note Prépare la mise en page et initialise le cache d'images.
         """
         super().__init__(parent, fg_color=THEME_TABLE_BG)
         self.controller = controller
@@ -91,6 +95,8 @@ class GameView(ctk.CTkFrame):
         """!
         @brief Met à jour l'ensemble de l'interface en fonction de l'état du contrôleur.
         @details Rafraîchit le header, la phase de jeu (vote ou résultat) et le deck.
+        @example
+            game_view.refresh_ui()
         """
         feature = self.controller.get_current_feature_name()
         if not feature: return
@@ -115,6 +121,7 @@ class GameView(ctk.CTkFrame):
         """!
         @brief Affiche la phase de vote.
         @details Dessine les slots joueurs avec leur statut (Attente / Réfléchit / A voté).
+        @note Les cartes du deck sont activées tant que les votes ne sont pas révélés.
         """
         for w in self.players_container.winfo_children(): w.destroy()
         for w in self.center_result_container.winfo_children(): w.destroy()
@@ -161,6 +168,7 @@ class GameView(ctk.CTkFrame):
         """!
         @brief Affiche la phase de résultats.
         @details Révèle les cartes des joueurs et affiche le panneau de résultat central.
+        @note Peut déclencher une sauvegarde/retour accueil via le contrôleur si pause café.
         """
         for w in self.players_container.winfo_children(): w.destroy()
         for w in self.center_result_container.winfo_children(): w.destroy()
@@ -221,6 +229,7 @@ class GameView(ctk.CTkFrame):
         """!
         @brief Construit le deck de cartes cliquables.
         @param enabled Indique si les cartes doivent être actives (cliquables).
+        @note Désactive les boutons quand les votes sont révélés.
         """
         for w in self.deck_frame.winfo_children(): w.destroy()
 
@@ -239,6 +248,7 @@ class GameView(ctk.CTkFrame):
         """!
         @brief Callback lors du clic sur une carte du deck.
         @param val La valeur de la carte.
+        @note Marque la phase comme révélée quand tous les joueurs ont voté.
         """
         self.controller.cast_vote(val)
         if self.controller.is_round_finished():
@@ -246,7 +256,13 @@ class GameView(ctk.CTkFrame):
         self.refresh_ui()
 
     def _get_card_image(self, value, size):
-        """Retourne une CTkImage mise en cache pour la valeur demandée."""
+        """!
+        @brief Charge et retourne l'image CTkImage d'une carte donnée.
+        @param value Valeur de la carte (ex: '20', 'cafe').
+        @param size Tuple (largeur, hauteur).
+        @return L'objet CTkImage correspondant.
+        @note Retourne None si l'image SVG est introuvable ou invalide.
+        """
         cache_key = (value, size)
         if cache_key in self._card_image_cache:
             return self._card_image_cache[cache_key]
@@ -275,6 +291,8 @@ class GameView(ctk.CTkFrame):
         @param command Fonction à appeler au clic.
         @param size Tuple (largeur, hauteur).
         @return Le widget bouton configuré.
+        @example
+            btn = self._create_card_button(frame, "5", lambda: print("vote"), (70, 105))
         """
         ctk_image = self._get_card_image(value, size)
 

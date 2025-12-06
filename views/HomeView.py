@@ -3,9 +3,18 @@ import customtkinter as ctk
 class HomeView(ctk.CTkFrame):
     """!
     @brief Vue d'accueil de l'application.
+    @attributes
+        controller Contrôleur principal pour les actions navigation/chargement.
     """
 
     def __init__(self, parent, controller):
+        """!
+        @brief Initialise la vue d'accueil et ses actions principales.
+        @param parent Widget parent.
+        @param controller Contrôleur principal.
+        @example
+            home = HomeView(parent=root, controller=main_controller)
+        """
         super().__init__(parent)
         self.controller = controller
 
