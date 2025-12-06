@@ -1,0 +1,18 @@
+# Configuration Doxygen pour AMY_LOREL_PlaningPoker
+
+PROJECT*NAME = "AMY_LOREL_PlaningPoker"
+PROJECT_NUMBER = 1.0
+PROJECT_BRIEF = "Projet de Planning Poker (M1 Info)"
+OUTPUT_DIRECTORY = docs
+INPUT = .
+RECURSIVE = YES
+FILE_PATTERNS = *.py \_.md
+EXCLUDE = .git .vscode **pycache** venv build dist
+USE_MDFILE_AS_MAINPAGE = README.md
+EXTENSION_MAPPING = py=Python
+OPTIMIZE_OUTPUT_JAVA = YES
+EXTRACT_ALL = YES
+EXTRACT_PRIVATE = YES
+EXTRACT_STATIC = YES
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
