@@ -18,8 +18,10 @@ class MainWindow(ctk.CTk):
         """
         super().__init__()
         self.title("AMY LOREL Planning Poker")
-        self.geometry("900x700")
-        self.minsize(800, 600)
+        self.minsize(1280, 820)
+        self.geometry("1280x820")
+        
+        self.after(0, lambda: self.state("zoomed"))
         
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)

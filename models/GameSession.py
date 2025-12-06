@@ -120,7 +120,7 @@ class GameSession:
 
     def next_round(self):
         """!
-        @brief Passe au tour de vote suivant pour la MÊME fonctionnalité.
+        @brief Passe au tour de vote suivant pour la même fonctionnalité.
         @details Incrémente le compteur de tours et vide les votes pour revoter.
         """
         self.current_round_number += 1

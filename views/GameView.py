@@ -2,28 +2,20 @@ import customtkinter as ctk
 from PIL import Image
 import io
 import os
+import cairosvg
 
-# --- Configuration Cairosvg ---
-try:
-    import cairosvg
-    CAIROSVG_AVAILABLE = True
-except ImportError:
-    CAIROSVG_AVAILABLE = False
-    print("Info UI: cairosvg non détecté. Mode fallback texte activé.")
-
-# --- Constantes de Design ---
 CARD_SIZE_DECK = (70, 105)   # Taille des cartes dans la main
 CARD_SIZE_TABLE = (80, 120)  # Taille des cartes révélées sur la table
 PLAYER_SLOT_WIDTH = 120      # Largeur fixe pour aligner chaque joueur
-THEME_COLOR_ACCENT = "#3B8ED0" # Bleu standard CTk
-THEME_COLOR_SUCCESS = "#2CC985" # Vert
-THEME_COLOR_WARNING = "#E5A00D" # Orange/Jaune
+THEME_COLOR_ACCENT = "#3B8ED0"
+THEME_COLOR_SUCCESS = "#2CC985"
+THEME_COLOR_WARNING = "#E5A00D"
 THEME_TABLE_BG = ("gray90", "gray13") # Fond de la table
 THEME_HEADER_BG = ("gray85", "gray17") # Fond du header
 
 class GameView(ctk.CTkFrame):
     """!
-    @brief Vue principale du jeu, redesignée pour un alignement et une esthétique modernes.
+    @brief Vue principale du jeu en cours.
     @details Affiche la table de jeu, les slots des joueurs, et la main (deck).
     """
 
@@ -85,13 +77,15 @@ class GameView(ctk.CTkFrame):
         # Deck de cartes
         self.deck_container = ctk.CTkFrame(self, height=180, fg_color=("gray85", "gray15"), corner_radius=15)
         self.deck_container.grid(row=2, column=0, sticky="ew", padx=20, pady=20)
-        self.deck_container.grid_propagate(False)
+        self.deck_container.grid_propagate(False) 
 
-        ctk.CTkLabel(self.deck_container, text="VOTRE MAIN", font=("Arial", 12, "bold"), text_color="gray").pack(pady=(10, 0))
+        ctk.CTkLabel(self.deck_container, text="VOTRE MAIN", font=("Arial", 12, "bold"), text_color="gray").pack(pady=(10, 5))
 
-        self.scroll_deck = ctk.CTkScrollableFrame(self.deck_container, orientation="horizontal", fg_color="transparent", height=130)
-        self.scroll_deck.pack(fill="both", expand=True, padx=10, pady=5)
+        self.deck_frame = ctk.CTkFrame(self.deck_container, fg_color="transparent")
+        self.deck_frame.pack(expand=True)
 
+        # Cache pour conserver les images CTkImage et éviter la collecte du garbage collector
+        self._card_image_cache = {}
 
     def refresh_ui(self):
         """!
@@ -101,7 +95,6 @@ class GameView(ctk.CTkFrame):
         feature = self.controller.get_current_feature_name()
         if not feature: return
 
-        # 1. Mise à jour Header
         self.lbl_feature.configure(text=feature)
         
         round_num = self.controller.model.current_round_number
@@ -109,7 +102,6 @@ class GameView(ctk.CTkFrame):
         self.lbl_round_num.configure(text=f"Tour {round_num}")
         self.lbl_round_rule.configure(text=rule_text)
 
-        # 2. Mise à jour Instruction Bar et Contenu Central
         current_player_name = self.controller.get_current_player_name()
 
         if self.controller.revealed:
@@ -175,21 +167,21 @@ class GameView(ctk.CTkFrame):
         
         votes = self.controller.get_votes()
         
-        # 1. Ré-afficher les slots avec les cartes
         for i, (name, val) in enumerate(votes.items()):
             slot = ctk.CTkFrame(self.players_container, width=PLAYER_SLOT_WIDTH, fg_color="transparent")
             slot.pack(side="left", padx=10)
 
             ctk.CTkLabel(slot, text=name, font=("Arial", 14, "bold")).pack(pady=(0, 10))
 
-            card_btn = self._create_card_button(slot, val, None, size=CARD_SIZE_TABLE)
-            card_btn.configure(state="disabled", border_width=0, fg_color="transparent")
-            
-            card_frame = ctk.CTkFrame(slot, fg_color="transparent", border_width=3, border_color=("gray80", "gray30"), corner_radius=10)
-            card_btn.pack(in_=card_frame, padx=3, pady=3)
+            card_frame = ctk.CTkFrame(slot, fg_color="white", corner_radius=10)
             card_frame.pack()
 
-        # 2. Panneau de Résultat Central
+            card_image = self._get_card_image(val, CARD_SIZE_TABLE)
+            card_text = "" if card_image else str(val)
+
+            ctk.CTkLabel(card_frame, text=card_text, image=card_image, width=CARD_SIZE_TABLE[0], height=CARD_SIZE_TABLE[1],
+                         fg_color="transparent", corner_radius=10).pack(padx=3, pady=3)
+
         result = self.controller.handle_end_of_round()
         
         result_panel = ctk.CTkFrame(self.center_result_container, corner_radius=15, border_width=2)
@@ -230,18 +222,18 @@ class GameView(ctk.CTkFrame):
         @brief Construit le deck de cartes cliquables.
         @param enabled Indique si les cartes doivent être actives (cliquables).
         """
-        for w in self.scroll_deck.winfo_children(): w.destroy()
-        
+        for w in self.deck_frame.winfo_children(): w.destroy()
+
         for val in self.controller.deck:
             cmd = lambda v=val: self._on_vote(v) if enabled else None
-            btn = self._create_card_button(self.scroll_deck, val, cmd, size=CARD_SIZE_DECK)
+            btn = self._create_card_button(self.deck_frame, val, cmd, size=CARD_SIZE_DECK)
             
             if not enabled:
                 btn.configure(state="disabled", fg_color=("gray85", "gray25"))
             else:
                 btn.configure(hover_color=THEME_COLOR_ACCENT, border_color=THEME_COLOR_ACCENT)
 
-            btn.pack(side="left", padx=8, pady=10)
+            btn.pack(side="left", padx=5)
 
     def _on_vote(self, val):
         """!
@@ -253,46 +245,43 @@ class GameView(ctk.CTkFrame):
             self.controller.revealed = True
         self.refresh_ui()
 
+    def _get_card_image(self, value, size):
+        """Retourne une CTkImage mise en cache pour la valeur demandée."""
+        cache_key = (value, size)
+        if cache_key in self._card_image_cache:
+            return self._card_image_cache[cache_key]
+
+        filename = f"cartes_{value}.svg"
+        image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "img", filename))
+
+        try:
+            with open(image_path, "rb") as f:
+                svg_data = f.read()
+            png_data = cairosvg.svg2png(bytestring=svg_data, output_height=size[1]*2)
+            pil_image = Image.open(io.BytesIO(png_data))
+            ctk_image = ctk.CTkImage(light_image=pil_image, dark_image=pil_image, size=size)
+            self._card_image_cache[cache_key] = ctk_image
+            return ctk_image
+        except Exception as e:
+            print(f"Erreur chargement image {filename}: {e}")
+            return None
+
     def _create_card_button(self, parent, value, command, size):
         """!
-        @brief Crée un widget carte (Bouton).
-        @details Tente de charger l'image SVG correspondante. En cas d'échec ou d'absence de lib, crée une version texte stylisée.
+        @brief Crée un widget carte.
+        @details Charge l'image SVG correspondante et crée un bouton.
         @param parent Widget parent.
         @param value Valeur de la carte (ex: '20', 'cafe').
         @param command Fonction à appeler au clic.
         @param size Tuple (largeur, hauteur).
         @return Le widget bouton configuré.
         """
-        filename = f"cartes_{value}.svg"
-        image_path = f"src/img/{filename}"
-        
-        ctk_image = None
-        
-        if CAIROSVG_AVAILABLE and os.path.exists(image_path):
-            try:
-                with open(image_path, 'rb') as f: svg_data = f.read()
-                png_data = cairosvg.svg2png(bytestring=svg_data, output_height=size[1]*2)
-                pil_image = Image.open(io.BytesIO(png_data))
-                ctk_image = ctk.CTkImage(light_image=pil_image, dark_image=pil_image, size=size)
-            except Exception as e:
-                print(f"Erreur chargement image {filename}: {e}")
+        ctk_image = self._get_card_image(value, size)
 
-        if ctk_image:
-            return ctk.CTkButton(parent, text="", image=ctk_image, command=command, 
-                                 width=size[0], height=size[1], 
-                                 fg_color="transparent", border_width=0,
-                                 hover_color=("gray90", "gray30"))
-        else:
-            display_text = value
-            if value == "cafe": display_text = "☕"
-            if value == "interro": display_text = "?"
-            
-            is_special = value in ["cafe", "interro"]
-            text_color = THEME_COLOR_ACCENT if not is_special else THEME_COLOR_WARNING
-            
-            return ctk.CTkButton(parent, text=display_text, command=command,
-                                 width=size[0], height=size[1], corner_radius=12,
-                                 font=("Arial", 28 if not is_special else 40, "bold"),
-                                 border_width=3, border_color=text_color,
-                                 fg_color=("white", "gray20"), text_color=text_color,
-                                 hover_color=text_color)
+        # Fallback texte si l'image est introuvable
+        button_text = "" if ctk_image else str(value)
+
+        return ctk.CTkButton(parent, text=button_text, image=ctk_image, command=command, 
+                                width=size[0], height=size[1],
+                                fg_color="white", border_width=0,
+                                hover_color=("gray90", "gray30"))

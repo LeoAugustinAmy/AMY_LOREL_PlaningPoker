@@ -21,7 +21,7 @@ class MainController:
         
         self.setup_controller = SetupController(self.game_session, self)
         self.game_controller = GameController(self.game_session, self)
-        self.result_controller = ResultController(self.game_session, self) # Instanciation indispensable
+        self.result_controller = ResultController(self.game_session, self)
 
     def show_home(self):
         """!
@@ -55,11 +55,9 @@ class MainController:
             with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
 
-            # 1. On restaure le modèle
             self.game_session.from_dict(data)
-            self.game_controller.reset() # On reset les index de voteurs temporaires
+            self.game_controller.reset()
 
-            # 2. Analyse du statut pour savoir où aller
             status = data.get("status", "IN_PROGRESS")
 
             if status == "FINISHED":
@@ -67,7 +65,6 @@ class MainController:
                 self.show_result()
             
             else:
-                # Vérification s'il reste des choses à faire
                 if self.game_session.get_current_feature():
                     CustomPopup("Chargement", "Partie reprise avec succès !", type="info")
                     self.show_game()
@@ -89,7 +86,6 @@ class MainController:
     def show_result(self): 
         """!
         @brief Affiche la vue des résultats de fin de partie.
-        @details C'est la méthode qui manquait et causait le crash.
         """
         result_frame = self.view.frames["ResultView"]
         result_frame.controller = self.result_controller

@@ -18,11 +18,9 @@ class ResultView(ctk.CTkFrame):
         super().__init__(parent)
         self.controller = controller
 
-        # Layout principal
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        # 1. HEADER
         self.header_frame = ctk.CTkFrame(self, fg_color=THEME_HEADER_BG, corner_radius=0)
         self.header_frame.grid(row=0, column=0, sticky="ew", ipady=15)
         
@@ -31,11 +29,9 @@ class ResultView(ctk.CTkFrame):
         ctk.CTkLabel(self.header_frame, text="Toutes les fonctionnalités ont été estimées.", 
                      font=("Arial", 14), text_color="gray").pack()
 
-        # 2. LISTE DES RÉSULTATS (Scrollable)
         self.results_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.results_frame.grid(row=1, column=0, sticky="nsew", padx=40, pady=20)
 
-        # 3. FOOTER (Boutons)
         self.footer_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.footer_frame.grid(row=2, column=0, sticky="ew", padx=40, pady=30)
         

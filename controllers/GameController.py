@@ -84,7 +84,6 @@ class GameController:
         for v in votes_values:
             if v.isdigit(): numeric_votes.append(int(v))
         
-        # RÈGLE DU SUJET : Unanimité stricte au 1er tour
         if self.model.current_round_number == 1:
             if not numeric_votes: return None 
             if len(set(numeric_votes)) == 1:
