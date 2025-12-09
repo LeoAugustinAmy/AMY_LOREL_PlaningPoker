@@ -1,0 +1,159 @@
+from models.Player import Player
+from models.Backlog import Backlog
+from models.GameRules import GameRules
+
+class GameSession:
+    """!
+    @brief Modèle principal contenant toute la data vive de la partie.
+    @attributes
+        players Liste des joueurs.
+        backlog Backlog des fonctionnalités.
+        rules Règles de validation.
+        current_feature_index Index de la fonctionnalité courante.
+        current_round_number Numéro du tour en cours.
+        votes Votes du tour en cours.
+        validated_features Estimations validées par fonctionnalité.
+    """
+
+    def __init__(self):
+        """!
+        @brief Initialise une nouvelle session de jeu.
+        @details Appelle reset() pour mettre l'état à zéro dès la création.
+        @return None
+        @note Crée un backlog et des règles frais à chaque instanciation.
+        """
+        self.reset()
+
+    def reset(self):
+        """!
+        @brief Réinitialise la session à zéro pour une nouvelle partie.
+        @details Vide les joueurs, recrée un backlog vide, remet les règles par défaut et vide les scores.
+        @return None
+        @note Remet aussi l'index de fonctionnalité et de tour à leurs valeurs initiales.
+        """
+        self.players = []
+        self.backlog = Backlog()
+        self.rules = GameRules()
+        
+        # --- État du Jeu ---
+        self.current_feature_index = 0
+        self.current_round_number = 1
+        self.votes = {} 
+        self.validated_features = {}
+
+    def to_dict(self, status="IN_PROGRESS"):
+        """!
+        @brief Convertit l'état complet de la session en dictionnaire pour l'export JSON.
+        @param status Le statut de la partie ("IN_PROGRESS", "FINISHED", "PAUSED").
+        @return Un dictionnaire contenant toutes les données nécessaires à la restauration.
+        @example
+            payload = session.to_dict(status="FINISHED")
+        """
+        return {
+            "status": status,
+            "rules": self.rules.selected_mode,
+            "players": [p.name for p in self.players],
+            "backlog": self.backlog.features,
+            "current_feature_index": self.current_feature_index,
+            "current_round_number": self.current_round_number,
+            "validated_features": {str(k): v for k, v in self.validated_features.items()}
+        }
+
+    def from_dict(self, data):
+        """!
+        @brief Restaure l'état de la session depuis un dictionnaire.
+        @param data Le dictionnaire chargé depuis le fichier JSON.
+        @return None
+        @raises ValueError Si le format du dictionnaire est invalide ou incomplet.
+        """
+        self.reset()
+        
+        if "rules" in data:
+            self.rules.set_mode(data["rules"])
+        
+        try:
+            for p_name in data.get("players", []):
+                self.add_player(p_name)
+                
+            for feat in data.get("backlog", []):
+                self.backlog.add_feature(feat)
+                
+            self.current_feature_index = data.get("current_feature_index", 0)
+            self.current_round_number = data.get("current_round_number", 1)
+            
+            self.validated_features = data.get("validated_features", {})
+        except Exception as exc:  # Defensive in case of malformed data
+            raise ValueError("Données de session invalides") from exc
+
+    def add_player(self, name):
+        """!
+        @brief Ajoute un joueur à la session.
+        @param name Le nom du joueur.
+        @return True si l'ajout est un succès, False sinon.
+        @note Le nom doit être unique et non vide.
+        """
+        if not name or any(p.name == name for p in self.players):
+            return False
+        self.players.append(Player(name))
+        return True
+
+    def remove_player(self, name):
+        """!
+        @brief Supprime un joueur de la session.
+        @param name Le nom du joueur à supprimer.
+        @return None
+        @note Ignore les noms inexistants.
+        """
+        self.players = [p for p in self.players if p.name != name]
+
+    def get_player_names(self):
+        """!
+        @brief Récupère la liste des noms des joueurs.
+        @return Une liste de chaînes de caractères.
+        @example
+            names = session.get_player_names()
+        """
+        return [p.name for p in self.players]
+
+    def get_current_feature(self):
+        """!
+        @brief Récupère la fonctionnalité (User Story) en cours de vote.
+        @return Le nom de la fonctionnalité ou None si le backlog est terminé.
+        @note Se base sur current_feature_index pour pointer la story courante.
+        """
+        if 0 <= self.current_feature_index < len(self.backlog.features):
+            return self.backlog.features[self.current_feature_index]
+        return None
+
+    def save_feature_score(self, score):
+        """!
+        @brief Enregistre le score validé pour la fonctionnalité courante.
+        @param score La valeur finale retenue (int ou str).
+        @return None
+        @raises ValueError Si aucune fonctionnalité courante n'est disponible.
+        """
+        feature = self.get_current_feature()
+        if not feature:
+            raise ValueError("Aucune fonctionnalité courante à enregistrer")
+        self.validated_features[feature] = score
+    
+    def next_feature(self):
+        """!
+        @brief Passe à la fonctionnalité suivante.
+        @details Réinitialise le compteur de tours à 1 et vide les votes.
+        @return None
+        @note Incrémente l'index de backlog même si aucune story suivante n'existe.
+        """
+        self.current_feature_index += 1
+        self.current_round_number = 1 
+        self.votes = {}
+
+    def next_round(self):
+        """!
+        @brief Passe au tour de vote suivant pour la même fonctionnalité.
+        @details Incrémente le compteur de tours et vide les votes pour revoter.
+        @return None
+        @note Ne modifie pas l'index de fonctionnalité.
+        """
+        self.current_round_number += 1
+        self.votes = {}
