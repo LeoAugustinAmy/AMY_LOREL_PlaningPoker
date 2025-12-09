@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,104,117,129"/>
+<area shape="rect" id="Node000001" href="$classGameView_1_1GameView.html" title="Vue principale du jeu en cours." alt="" coords="173,5,340,31"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="86,93,121,65,164,40,194,28,196,33,166,44,124,69,89,97"/>
+<area shape="rect" id="Node000002" href="$classHeaderView_1_1HeaderView.html" title="Barre de navigation supérieure commune à l&#39;application." alt="" coords="165,55,348,80"/>
+<area shape="poly" id="edge3_Node000000_Node000002" title=" " alt="" coords="125,98,205,77,206,83,126,103"/>
+<area shape="rect" id="Node000003" href="$classHomeView_1_1HomeView.html" title="Vue d&#39;accueil de l&#39;application." alt="" coords="173,104,340,129"/>
+<area shape="poly" id="edge4_Node000000_Node000003" title=" " alt="" coords="131,114,173,114,173,119,131,119"/>
+<area shape="rect" id="Node000004" href="$classResultView_1_1ResultView.html" title="Vue affichant le bilan de la partie." alt="" coords="171,153,342,179"/>
+<area shape="poly" id="edge5_Node000000_Node000004" title=" " alt="" coords="126,130,206,151,205,156,125,135"/>
+<area shape="rect" id="Node000005" href="$classSetupView_1_1SetupView.html" title="Vue de configuration de la partie." alt="" coords="175,203,338,228"/>
+<area shape="poly" id="edge6_Node000000_Node000005" title=" " alt="" coords="89,136,125,163,166,188,199,200,198,205,164,192,122,167,86,140"/>
+</map>
