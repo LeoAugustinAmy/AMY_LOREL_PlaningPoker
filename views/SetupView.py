@@ -26,7 +26,7 @@ class SetupView(ctk.CTkFrame):
         self.header_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.header_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(20, 10), padx=20)
         
-        ctk.CTkLabel(self.header_frame, text="Configuration de la Session", 
+        ctk.CTkLabel(self.header_frame, text="Configuration de la session", 
                      font=("Roboto Medium", 24)).pack(side="left")
 
         self.btn_export = ctk.CTkButton(self.header_frame, text="Sauvegarder (JSON)", width=120, 
@@ -42,12 +42,12 @@ class SetupView(ctk.CTkFrame):
         self.left_card = ctk.CTkFrame(self, corner_radius=15)
         self.left_card.grid(row=1, column=0, sticky="nsew", padx=(20, 10), pady=10)
         
-        ctk.CTkLabel(self.left_card, text="📝 Saisie des données", font=("Roboto Medium", 18), text_color="gray70").pack(anchor="w", padx=20, pady=(20, 10))
+        ctk.CTkLabel(self.left_card, text="📝 Saisie des données", font=("Segoe UI Emoji", 18), text_color="gray70", anchor="center").pack(anchor="w", padx=20, pady=(20, 10))
 
         self.frame_add_player = ctk.CTkFrame(self.left_card, fg_color="transparent")
         self.frame_add_player.pack(fill="x", padx=20, pady=10)
         
-        ctk.CTkLabel(self.frame_add_player, text="Nouveau Joueur", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5))
+        ctk.CTkLabel(self.frame_add_player, text="Nouveau joueur", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5))
         
         self.entry_player = ctk.CTkEntry(self.frame_add_player, placeholder_text="Ex: Alice", height=40)
         self.entry_player.pack(side="left", fill="x", expand=True, padx=(0, 10))
@@ -63,9 +63,9 @@ class SetupView(ctk.CTkFrame):
         self.frame_add_feat = ctk.CTkFrame(self.left_card, fg_color="transparent")
         self.frame_add_feat.pack(fill="x", padx=20, pady=10)
         
-        ctk.CTkLabel(self.frame_add_feat, text="Nouvelle Fonctionnalité (User Story)", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5))
+        ctk.CTkLabel(self.frame_add_feat, text="Nouvelle fonctionnalité (user story)", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5))
         
-        self.entry_feature = ctk.CTkEntry(self.frame_add_feat, placeholder_text="Ex: Page de Login", height=40)
+        self.entry_feature = ctk.CTkEntry(self.frame_add_feat, placeholder_text="Ex: Page de login", height=40)
         self.entry_feature.pack(side="left", fill="x", expand=True, padx=(0, 10))
         self.entry_feature.bind("<Return>", lambda event: self.add_feature())
         
@@ -81,12 +81,12 @@ class SetupView(ctk.CTkFrame):
         self.right_card.grid_rowconfigure(3, weight=1)
         self.right_card.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(self.right_card, text="👥 Joueurs Inscrits", font=("Roboto Medium", 16)).grid(row=0, column=0, sticky="w", padx=20, pady=(15, 5))
+        ctk.CTkLabel(self.right_card, text="👥 Joueurs inscrits", font=("Segoe UI Emoji", 16)).grid(row=0, column=0, sticky="w", padx=20, pady=(15, 5))
         
         self.list_players = ctk.CTkScrollableFrame(self.right_card, fg_color="transparent")
         self.list_players.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
-        ctk.CTkLabel(self.right_card, text="📋 Backlog", font=("Roboto Medium", 16)).grid(row=2, column=0, sticky="w", padx=20, pady=(15, 5))
+        ctk.CTkLabel(self.right_card, text="📋 Backlog", font=("Segoe UI Emoji", 16)).grid(row=2, column=0, sticky="w", padx=20, pady=(15, 5))
         
         self.list_features = ctk.CTkScrollableFrame(self.right_card, fg_color="transparent")
         self.list_features.grid(row=3, column=0, sticky="nsew", padx=10, pady=(0, 10))
@@ -104,7 +104,7 @@ class SetupView(ctk.CTkFrame):
         self.rules_menu.pack(side="left")
 
         self.btn_start = ctk.CTkButton(self.footer_frame, text="LANCER LA PARTIE 🚀", 
-                                       font=("Arial", 16, "bold"), height=50, width=250,
+                                       font=("Segoe UI Emoji", 16, "bold"), height=50, width=250,
                                        fg_color="#E04F5F", hover_color="#B03E4A",
                                        command=self.start_game)
         self.btn_start.pack(side="right")

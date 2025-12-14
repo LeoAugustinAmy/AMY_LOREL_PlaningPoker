@@ -41,13 +41,13 @@ class ResultView(ctk.CTkFrame):
         self.footer_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.footer_frame.grid(row=2, column=0, sticky="ew", padx=40, pady=30)
         
-        self.btn_save = ctk.CTkButton(self.footer_frame, text="💾 Enregistrer la Partie", 
+        self.btn_save = ctk.CTkButton(self.footer_frame, text="Enregistrer la partie", 
                                       font=("Arial", 16, "bold"), height=50, width=200,
                                       fg_color=THEME_COLOR_ACCENT, hover_color="#2C6E9F",
                                       command=self._on_save)
         self.btn_save.pack(side="left")
 
-        self.btn_home = ctk.CTkButton(self.footer_frame, text="Retour Accueil 🏠", 
+        self.btn_home = ctk.CTkButton(self.footer_frame, text="Retourner à l'accueil", 
                                       font=("Arial", 16, "bold"), height=50, width=200,
                                       fg_color="transparent", border_width=2, border_color="gray",
                                       hover_color=("gray90", "gray20"), text_color=("gray10", "gray90"),

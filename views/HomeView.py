@@ -24,10 +24,10 @@ class HomeView(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Planning Poker", font=("Arial", 40, "bold")).grid(row=1, column=0, pady=20)
 
-        ctk.CTkButton(self, text="Nouvelle Partie", width=200, height=50,
+        ctk.CTkButton(self, text="Nouvelle partie", width=200, height=50,
                       command=lambda: self.controller.show_setup()).grid(row=2, column=0, pady=10)
         
-        ctk.CTkButton(self, text="Charger une Partie", width=200, height=50,
+        ctk.CTkButton(self, text="Charger une partie", width=200, height=50,
                       command=lambda: self.controller.load_game()).grid(row=3, column=0, pady=10)
 
         ctk.CTkButton(self, text="Quitter", width=200, height=50, fg_color="red", hover_color="darkred",
