@@ -149,5 +149,5 @@ class SetupController:
             self.main_controller.show_game()
         else:
             CustomPopup("Impossible de lancer", 
-                        "Pour démarrer, il faut :\n• Au moins 2 Joueurs\n• Au moins 1 Fonctionnalité", 
+                        "Pour démarrer, il faut :\n• au moins 2 joueurs\n• au moins 1 fonctionnalité", 
                         type="warning")

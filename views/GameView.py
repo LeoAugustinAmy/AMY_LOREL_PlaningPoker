@@ -216,8 +216,12 @@ class GameView(ctk.CTkFrame):
             if result == "cafe": res_display = "☕"
             if result == "interro": res_display = "?"
             ctk.CTkLabel(result_panel, text=str(res_display), font=("Roboto Medium", 48, "bold"), text_color=THEME_COLOR_SUCCESS).pack(pady=10)
+
+            session = self.controller.model
+            is_last_feature = session.current_feature_index >= (len(session.backlog.features) - 1)
+            button_text = "Voir le bilan de la session" if is_last_feature else "Valider et estimer la prochaine fonctionnalité"
             
-            ctk.CTkButton(result_panel, text="Valider & User Story Suivante", 
+            ctk.CTkButton(result_panel, text=button_text, 
                                          font=("Arial", 14, "bold"), height=45, width=220,
                                          fg_color=THEME_COLOR_SUCCESS, hover_color="#229A65",
                                          command=lambda: self.controller.validate_feature(result)).pack()

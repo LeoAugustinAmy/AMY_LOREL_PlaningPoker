@@ -21,7 +21,25 @@ Le projet est codé en **Python 3.10+**.
 Nous avons respecté une architecture **MVC (Modèle-Vue-Contrôleur)** pour séparer la logique métier de l'interface.
 L'interface graphique utilise la librairie **CustomTkinter** pour un rendu plus moderne que le Tkinter de base.
 
-## Installation et lancement
+## Liens utiles
+
+- Releases (téléchargement du `.exe`) : <https://github.com/LeoAugustinAmy/AMY_LOREL_PlaningPoker/releases>
+- Documentation (GitHub Pages) : <https://leoaugustinamy.github.io/AMY_LOREL_PlaningPoker/index.html>
+
+## Téléchargement et utilisation sans cloner
+
+Vous pouvez utiliser l’application sans installer Python ni cloner le dépôt :
+
+- **Téléchargement de l’exécutable Windows (.exe)**  
+  Rendez-vous sur la page **Releases** du dépôt GitHub et téléchargez `PlanningPoker.exe` de la dernière version (ex: v2.x).
+
+- **Lancement**  
+  Double-cliquez sur `PlanningPoker.exe`. Les ressources (cartes SVG) sont intégrées via la release; aucune configuration supplémentaire n’est requise.
+
+- **Compatibilité**  
+  Windows 10+ recommandé. Aucune dépendance Python nécessaire.
+
+## Installation et lancement (mode développement)
 
 Il faut avoir Python et `pip` installés.
 
@@ -29,6 +47,9 @@ Il faut avoir Python et `pip` installés.
 
     ```bash
     git clone https://github.com/LeoAugustinAmy/AMY_LOREL_PlaningPoker.git
+    ```
+
+    ```bash
     cd AMY_LOREL_PlaningPoker.git
     ```
 
